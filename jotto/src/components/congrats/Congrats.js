@@ -1,0 +1,20 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const Congrats = props => {
+  if (props.success) {
+    return (<div data-test="congrats">
+      <span data-test="congrats-message">
+        Congratulations! You guessed the word.
+      </span>
+    </div>);
+  }
+
+  return <div data-test="congrats" />;
+};
+
+Congrats.propTypes = {
+
+};
+
+export default Congrats;
