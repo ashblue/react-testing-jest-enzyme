@@ -1,10 +1,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import Congrats from "./Congrats";
-import {findByTestAttr} from "../../../test/testUtils";
+import {findByTestAttr, checkProps} from "../../../test/testUtils";
+
+const defaultProps = {
+  success: false,
+};
 
 const setup = (props = {}) => {
-  return shallow(<Congrats {...props} />)
+  const setupProps = {...defaultProps, ...props};
+  return shallow(<Congrats {...setupProps} />)
 };
 
 it('renders without error', () => {
@@ -26,4 +31,9 @@ it('renders non-empty congrats message when `success` prop is true', () => {
   const message = findByTestAttr(wrapper, 'congrats-message');
 
   expect(message.text()).not.toBe('');
+});
+
+it('does not throw warning with expected props', () => {
+  const expectedProps = {success: false};
+  checkProps(Congrats, expectedProps);
 });
