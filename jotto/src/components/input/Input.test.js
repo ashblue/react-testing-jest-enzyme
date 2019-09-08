@@ -2,13 +2,7 @@ import React from 'react';
 import Input from "./Input";
 
 import {shallow} from 'enzyme';
-import reducers from '../../../src/reducers';
-import {createStore} from "redux";
-import {findByTestAttr} from "../../../test/testUtils";
-
-export const storeFactory = (initialState) => {
-  return createStore(reducers, initialState);
-};
+import {findByTestAttr, storeFactory} from "../../../test/testUtils";
 
 const setup = (initialState={}) => {
   const store = storeFactory(initialState);
