@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import './App.css';
 import Congrats from "./components/congrats/Congrats";
 import GuessedWords from "./components/guessedWords/GuessedWords";
@@ -16,6 +15,7 @@ export class UnconnectedApp extends Component {
     return (
       <div className="container">
         <h1>Jotto</h1>
+        <div>The secret word is {this.props.secretWord}</div>
         <Congrats success={this.props.success}/>
         <Input />
         <GuessedWords guessedWords={this.props.guessedWords}/>
@@ -23,12 +23,6 @@ export class UnconnectedApp extends Component {
     );
   }
 }
-
-UnconnectedApp.propTypes = {
-  success: PropTypes.bool.isRequired,
-  guessedWords: PropTypes.array.isRequired,
-  secretWord: PropTypes.string.isRequired,
-};
 
 const mapStateToProps = ({success, guessedWords, secretWord}) => ({
   success,

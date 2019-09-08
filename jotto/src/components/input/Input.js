@@ -13,9 +13,10 @@ export class InputInternal extends Component {
   submitGuessedWord(e) {
     e.preventDefault();
 
-    const guess = this.inputBox.current;
+    const guess = this.inputBox.current.value;
     if (guess && guess.length > 0) {
       this.props.guessWord(guess);
+      this.inputBox.current.value = '';
     }
   }
 

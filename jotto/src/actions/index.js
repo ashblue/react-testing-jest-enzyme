@@ -15,7 +15,7 @@ export const guessWord = (guessedWord) => {
     dispatch({
       type: actionTypes.GUESS_WORD,
       payload: {
-        guessWord: guessedWord,
+        guessedWord,
         letterMatchCount,
       },
     });

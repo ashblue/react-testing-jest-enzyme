@@ -91,7 +91,7 @@ describe('guessWord action calling', () => {
       <InputInternal {...props} />
     );
 
-    wrapper.instance().inputBox.current = guessValue;
+    wrapper.instance().inputBox.current = {value: guessValue};
 
     const form = findByTestAttr(wrapper, 'form');
     form.simulate('submit', {preventDefault: () => {}});
@@ -103,5 +103,9 @@ describe('guessWord action calling', () => {
 
   it('should pass the input value to guessWord when submit is clicked', () => {
     expect(guessWordMock).toBeCalledWith(guessValue);
+  });
+
+  it('clears input on submit', () => {
+    expect(wrapper.instance().inputBox.current.value).toBe('');
   });
 });
