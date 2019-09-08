@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from "./Input";
+import Input, {InputInternal} from "./Input";
 
 import {shallow} from 'enzyme';
 import {findByTestAttr, storeFactory} from "../../../test/testUtils";
@@ -72,5 +72,36 @@ describe('redux props', () => {
     const wrapper = setup();
     const guessWordProp = wrapper.instance().props.guessWord;
     expect(guessWordProp).toBeInstanceOf(Function);
+  });
+});
+
+describe('guessWord action calling', () => {
+  const guessValue = 'party';
+
+  let wrapper;
+  let guessWordMock;
+
+  beforeEach(() => {
+    guessWordMock = jest.fn();
+    const props = {
+      guessWord: guessWordMock,
+    };
+
+    wrapper = shallow(
+      <InputInternal {...props} />
+    );
+
+    wrapper.instance().inputBox.current = guessValue;
+
+    const form = findByTestAttr(wrapper, 'form');
+    form.simulate('submit', {preventDefault: () => {}});
+  });
+
+  it('should run on submit', () => {
+    expect(guessWordMock.mock.calls.length).toBe(1);
+  });
+
+  it('should pass the input value to guessWord when submit is clicked', () => {
+    expect(guessWordMock).toBeCalledWith(guessValue);
   });
 });

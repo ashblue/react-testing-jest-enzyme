@@ -3,20 +3,40 @@ import {connect} from 'react-redux';
 
 import {guessWord} from "../../actions";
 
-class Input extends Component {
+export class InputInternal extends Component {
+  constructor(props) {
+    super(props);
+    this.inputBox = React.createRef();
+    this.submitGuessedWord = this.submitGuessedWord.bind(this);
+  }
+
+  submitGuessedWord(e) {
+    e.preventDefault();
+
+    const guess = this.inputBox.current;
+    if (guess && guess.length > 0) {
+      this.props.guessWord(guess);
+    }
+  }
+
   render() {
     const {success} = this.props;
 
     let contents = null;
     if (!success) {
       contents = (
-        <form className="form-inline">
+        <form
+          data-test="form"
+          className="form-inline"
+          onSubmit={this.submitGuessedWord}>
           <input
             type="text"
+            ref={this.inputBox}
             data-test="input-box"
             className="mb-2 mx-sm-3"
             placeholder="enter guess"
           />
+
           <button
             data-test="button-submit"
             type="submit"
@@ -39,4 +59,4 @@ const mapStateToProps = ({success}) => ({
   success,
 });
 
-export default connect(mapStateToProps, {guessWord})(Input);
+export default connect(mapStateToProps, {guessWord})(InputInternal);
