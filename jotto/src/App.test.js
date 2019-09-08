@@ -1,13 +1,17 @@
 import React from 'react';
-import App from './App';
+import App, {UnconnectedApp} from './App';
 
 import {shallow} from 'enzyme';
 import {storeFactory} from "../test/testUtils";
 
 const setup = (initialState = {}) => {
-  const defaultState = {secretWord: 'a', guessedWords: [], success: false};
-  const store = storeFactory({...defaultState, ...initialState});
+  const store = storeFactory(getState(initialState));
   return shallow(<App store={store} />).dive().dive();
+};
+
+const getState = (initialState) => {
+  const defaultState = {secretWord: 'a', guessedWords: [], success: false};
+  return {...defaultState, ...initialState};
 };
 
 it('renders the element', () => {
@@ -48,4 +52,19 @@ describe('redux properties', () => {
     const getSecretWordProp = wrapper.instance().props.getSecretWord;
     expect(getSecretWordProp).toBeInstanceOf(Function);
   });
+});
+
+// @TODO Mock injection should be a re-usable global method helper
+it('run `getSecretWord` on App mount', () => {
+  const getSecretWordMock = jest.fn();
+  const wrapper = shallow(
+    <UnconnectedApp
+      {...getState({getSecretWord: getSecretWordMock})}
+    />
+  );
+
+  wrapper.instance().componentDidMount();
+  const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
+
+  expect(getSecretWordCallCount).toBe(1);
 });
