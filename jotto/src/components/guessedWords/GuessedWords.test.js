@@ -69,4 +69,20 @@ describe('if there are words described', () => {
     const guessedWordItems = findByTestAttr(wrapper, 'guessed-word-item');
     expect(guessedWordItems.length).toBe(guessedWords.length);
   });
+
+  it('prints the index for each guessed word', () => {
+    const guessedWordItems = findByTestAttr(wrapper, 'guessed-word-item');
+
+    for (let i = 0; i < guessedWordItems.length; i++) {
+      const row = guessedWordItems.at(i);
+      expect(row.text()).toContain(i + 1);
+    }
+  });
+
+  it('prints the total guesses', () => {
+    const totalGuesses = findByTestAttr(wrapper, 'total-guesses');
+    const guessedWordItems = findByTestAttr(wrapper, 'guessed-word-item');
+
+    expect(totalGuesses.text()).toContain(guessedWordItems.length);
+  });
 });
